@@ -4,6 +4,11 @@ import os
 import sys
 import paho.mqtt.client as mqtt
 import json
+import telepot
+
+#telegram configuration
+CHAT_ID = YOUR_CHAT_ID
+BOT = telepot.Bot('YOUR_BOT_TOKEN')
 
 #configure host and token
 HOST = 'demo.thingsboard.io'
@@ -33,6 +38,7 @@ try:
                 t = time.localtime()
                 if(input_data == 1):
                         print "%d:%d:%d Motion Detected." % (t.tm_hour, t.tm_min, t.tm_sec)
+                        BOT.sendMessage(CHAT_ID, 'Warning! Intruder Detected!!')
                 sensor_data['contact'] = input_data
                 #push data to thingsboard.io database
                 client.publish('v1/devices/me/telemetry', json.dumps(sensor_data), 1)
